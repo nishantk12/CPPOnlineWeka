@@ -1,6 +1,10 @@
 #include <GenericClassifierWeka.h>
 using namespace std;	
 
+/*
+* execute: g++ NaiveBayesClassification.cpp  -L${$JAVA_HOME/jre/lib/amd64/server/} -ljvm -o executable
+* ./executable
+*/
 int main(int n, char *argv[]) {
 	
 	GenericClassifierWeka classifier;
