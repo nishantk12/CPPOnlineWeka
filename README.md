@@ -47,23 +47,18 @@ INTERFACES:
                       indexOfClass : This indicates the index of the class in the feature vector, weka module uses 
                       this class index to generate predicted output.
 	
-	classify : 		The method classify is overloaded to accept 
-					vector and array inputs. The method takes
-					a double array ( along with it's size) or a
-			        vector and returns the class corresponding 
-                    to the feature vector ( or array).
-                    The method throws 3 exceptions namely,
-                    No data in the vector, JavaDouble Array Creation Failed,
-                    class of the vector could not be found.
-                    Example of method call - classify(inputVector);
+	classify : The method classify is overloaded to accept 
+		 vector and array inputs. The method takes
+		a double array ( along with it's size) or a
+	        vector and returns the class corresponding 
+                to the feature vector ( or array).
+                The method throws 3 exceptions namely,
+                No data in the vector, JavaDouble Array Creation Failed,
+                class of the vector could not be found.
+                Example of method call - classify(inputVector);
 ------------------------------------------------------------------------------------------------------------
 Please refer to the sample driver program and the Examples folder to gain an insight
 of how to use this library.
 	
 This is just a beta version of the Read-me file. Shall come up with a one
 with a better insight shortly.
-	
- 
-EXAMPLES:
- 
-VERSION REQUIREMENTS:
