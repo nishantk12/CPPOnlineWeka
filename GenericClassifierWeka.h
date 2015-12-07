@@ -118,7 +118,10 @@ class GenericClassifierWeka {
 // Example of method call : classify(inputVector);
 
 	double classify(vector<double> inputVector) {
-
+		if(javaVM == NULL){
+			throw "ERROR : Model must be loaded before calling classify method";
+			exit(1);
+		}
 		int inputVectorsize = inputVector.size(); 
 
 		if(inputVectorsize==0) {
@@ -154,7 +157,10 @@ class GenericClassifierWeka {
 // as input. Returns the class corresponding to the feature
 // array.
 	double classify(double *inputArray, int inputArraySize) {
-
+		if(javaVM == NULL){
+			throw "ERROR : Model must be loaded before calling classify method";
+			exit(1);
+		}
 		if(inputArraySize==0){
 			throw "ERROR : No data in the array";
 			exit(1);
