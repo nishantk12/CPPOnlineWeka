@@ -19,7 +19,6 @@ class GenericClassifierWeka {
 	 JNIEnv *jniEnv;
 	 JavaVMInitArgs javaVMInitArgs;
 	 JavaVMOption* jvmOptions;
-	
 	 jclass jclassClassifier;
 	 jmethodID jmethodIdLoadModel;
 	 jmethodID jmethodIdForClassification;
@@ -29,16 +28,19 @@ class GenericClassifierWeka {
 // The method loadClassifier provieds an interface to load the classifier
 // in your driver program. The class takes 3 inputs namely:
 // inputModelFilePath : the path of your Weka model 
-// inputPropertyFilePath : The path of your DataFile , weka needs the propertyfile to ??
-// indexOfClass : 
+// inputPropertyFilePath : The path of your propertyFile, weka needs the propertyfile 
+// to match your attributes to its clasification model
+// indexOfClass : This indicates the index of the class in the feature vector, weka module uses 
+// this class index to generate predicted output.
 // Example loadClassifier("/myFolder/Weka.model","/myFolder/myData.property", 1);	
+// You may refer to the documentation for further example code snippets using different modules
 // The method only sets the Classpath parameter while initailaizing the JVM
 // User may add set more option parameter to the JVM by modifying the heaader file
 // The method throws four Exceptions such as the Java class GenericWeka not found,
 // loadClassifier method not found, model not loaded and method classify not found.
 	
 	public:
-	void loadClassifier(char* inputModelFilePath, char* inputDataFilePath, int indexOfClass) {
+	void loadClassifier(char* inputModelFilePath, char* inputPropertyFilePath, int indexOfClass) {
 		
 		jvmOptions  = new JavaVMOption[JVM_NO_OF_OPTIONS];
 		const char *C_CLASSPATH_KEY = "-Djava.class.path=";
@@ -68,15 +70,14 @@ class GenericClassifierWeka {
 		}
 
 
-		//jint version = jniEnv->GetVersion();
-		//cout << "JVM load succeeded: Version " << ((version>>16)&0x0f) << "."<<(version&0x0f) << endl;
+		
 		jclassClassifier = jniEnv->FindClass("GenericClassifierWeka");
 
 		if(jclassClassifier == NULL) {
 			 	throw "ERROR: java class GenericClassifierWeka not found ";
 			
 		} else {
-				//cout << "Class GenericClassifierWeka found" << endl;
+				
 				jmethodIdLoadModel = jniEnv->GetStaticMethodID(jclassClassifier,"loadClassifier", "(Ljava/lang/String;Ljava/lang/String;I)I");
 				
 				if(jmethodIdLoadModel == NULL){
@@ -84,8 +85,8 @@ class GenericClassifierWeka {
 				}else {
 						
 					jobject  modelFilePath = jniEnv->NewStringUTF(inputModelFilePath);
-					jobject  dataFilePath = jniEnv->NewStringUTF(inputDataFilePath);
-					jint numberOfModelAttributes = jniEnv->CallStaticIntMethod(jclassClassifier,jmethodIdLoadModel,modelFilePath,dataFilePath,(jint)indexOfClass);
+					jobject  propertyFilePath = jniEnv->NewStringUTF(inputPropertyFilePath);
+					jint numberOfModelAttributes = jniEnv->CallStaticIntMethod(jclassClassifier,jmethodIdLoadModel,modelFilePath,propertyFilePath,(jint)indexOfClass);
 						
  					if (jniEnv->ExceptionCheck()) {
 						jniEnv->ExceptionDescribe();
