@@ -86,7 +86,11 @@ class GenericClassifierWeka {
 						
 					jobject  modelFilePath = jniEnv->NewStringUTF(inputModelFilePath);
 					jobject  propertyFilePath = jniEnv->NewStringUTF(inputPropertyFilePath);
-					jint numberOfModelAttributes = jniEnv->CallStaticIntMethod(jclassClassifier,jmethodIdLoadModel,modelFilePath,propertyFilePath,(jint)indexOfClass);
+					jint numberOfModelAttributes = jniEnv->CallStaticIntMethod(jclassClassifier,
+						                                                      jmethodIdLoadModel,
+						                                                      modelFilePath,
+						                                                      propertyFilePath,
+						                                                      (jint)indexOfClass);
 						
  					if (jniEnv->ExceptionCheck()) {
 						jniEnv->ExceptionDescribe();
@@ -135,7 +139,9 @@ class GenericClassifierWeka {
 			 throw "ERROR : Java Double Array Creation Failed";
 		}
 
-		jdouble classOftheVector = jniEnv->CallStaticDoubleMethod(jclassClassifier , jmethodIdForClassification, outJNIArray);
+		jdouble classOftheVector = jniEnv->CallStaticDoubleMethod(jclassClassifier , 
+		                                                         jmethodIdForClassification, 
+		                                                         outJNIArray);
 
 		if (jniEnv->ExceptionCheck()) {
 			jniEnv->ExceptionDescribe();
@@ -161,7 +167,9 @@ class GenericClassifierWeka {
 			throw "ERROR : Java Double Array not created";
 		}
 
-		jdouble classOftheVector = jniEnv->CallStaticDoubleMethod(jclassClassifier , jmethodIdForClassification , outJNIArray);
+		jdouble classOftheVector = jniEnv->CallStaticDoubleMethod(jclassClassifier , 
+			                                                      jmethodIdForClassification , 
+			                                                      outJNIArray);
 		if (jniEnv->ExceptionCheck()) {
 			jniEnv->ExceptionDescribe();
 	             	throw "ERROR : Class of the Vector could not be found";
