@@ -68,6 +68,6 @@ if  [ ! -f /usr/include/GenericClassifierWeka.h ]
 		ln -s ${PWD}/GenericClassifierWeka.h /usr/include/GenericClassifierWeka.h
 fi
 
-g++ MultiClass.cpp -o executable -L${LIBPATH} -ljvm
+g++ SampleDriver.cpp -o executable -L${LIBPATH} -ljvm
 
 ./executable
