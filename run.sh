@@ -55,7 +55,6 @@ fi
 
 if  [ ! -f /usr/include/GenericClassifierWeka.h ]	
 then
-	echo "inside if"
 	ln -s ${PWD}/GenericClassifierWeka.h /usr/include/GenericClassifierWeka.h
 fi
 
