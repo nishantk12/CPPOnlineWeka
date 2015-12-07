@@ -3,19 +3,34 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.File;
-
 import weka.classifiers.Classifier;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.SerializationHelper;
-
-
+/* The GenericClassifierWeka java class is used as an input
+* to the JNI interface of the GenericClassifier.h C++ header
+* file. The class provides user application interface in the form
+* of two methods namely loadClassifier and classify. These methods
+* as the name suggests is used to load a weka classifier model and 
+* classify it respectively.
+*/
 public class GenericClassifierWeka {
 
 	private static Classifier cls;
 	private static Instances data = null;
 	private static Integer numOfAttributes;
 	private static Integer indexOfClassAttr;
+
+/* loadClassifier method returns the number of attributes of the property file on successful execution
+*  The method takes three inputs as follows
+*  modelFilePath : The path of the weka model file 
+*  propertyFilePath : The path of the property file. The property file is the header of the arff file that is
+*  used for training the model. Thus the property file is the arff file minus the data. For further clarity please
+*  refer to the documentation. 
+*  indexOfClass : This indicates the class index that the model uses to identify the relevant features corresponing
+*  the input vector in the classify method.
+*  The class throws several exceptions as the code would suggest.
+*/
 
 	public static int loadClassifier(String modelFilePath, String propertyFilePath, int indexOfClass) throws Exception{
 		//0.0 Check indexOfClass
@@ -80,6 +95,11 @@ public class GenericClassifierWeka {
 		return numOfAttributes;
 	}
 
+/* The classify method takes the feature vector in the form of an double array
+*  and return as double class value. The method returns several exceptions as the
+*  code would suggest. 
+*/
+
 	public static double classify(double[] candidateArray) throws Exception {
 		if(candidateArray==null || candidateArray.length==0){
 			throw new Exception("Input Array must not be empty");
@@ -104,8 +124,7 @@ public class GenericClassifierWeka {
 			instance.setValue(attributeIndex,candidateArray[index]);
 			attributeIndex++;			
 		}
-		// 5. Set the missing attribute //TODO Are MIssing parameters allowed in any classification ASK PROF
-		//ins.setMissing(indexOfClassAttr - 1);
+		
 		try{
 			return cls.classifyInstance(instance);
 		}catch(ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException){
